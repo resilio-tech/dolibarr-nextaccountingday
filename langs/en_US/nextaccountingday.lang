@@ -1,0 +1,56 @@
+# Copyright (C) 2024 SuperAdmin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#
+# Generic
+#
+
+# Module label 'ModuleNextAccountingDayName'
+ModuleNextAccountingDayName = NextAccountingDay
+# Module description 'ModuleNextAccountingDayDesc'
+ModuleNextAccountingDayDesc = NextAccountingDay description
+NextAccountingDayButton = Next
+NextAccountingDayButtonTooltip = Next accounting day
+
+#
+# Admin page
+#
+NextAccountingDaySetup = NextAccountingDay setup
+Settings = Settings
+NextAccountingDaySetupPage = NextAccountingDay setup page
+NEXTACCOUNTINGDAY_MYPARAM1 = My param 1
+NEXTACCOUNTINGDAY_MYPARAM1Tooltip = My param 1 tooltip
+NEXTACCOUNTINGDAY_MYPARAM2=My param 2
+NEXTACCOUNTINGDAY_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+NextAccountingDayAbout = About NextAccountingDay
+NextAccountingDayAboutPage = NextAccountingDay about page
+
+#
+# Sample page
+#
+NextAccountingDayArea = Home NextAccountingDay
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description
