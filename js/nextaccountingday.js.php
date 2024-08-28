@@ -145,6 +145,16 @@ function proceed() {
 	}, 5);
 }
 
+const contain = [
+	'salaries',
+	'compta/sociales',
+	'compta/bank/various_payment',
+	'fourn/facture'
+]
+
 $(document).ready(function () {
+	const path = window.location.pathname;
+	const isContain = contain.some((el) => path.includes(el));
+	if (!isContain) return;
 	proceed();
 });
