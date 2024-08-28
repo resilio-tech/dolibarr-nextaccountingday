@@ -149,7 +149,8 @@ const contain = [
 	'salaries',
 	'compta/sociales',
 	'compta/bank/various_payment',
-	'fourn/facture'
+	'fourn/facture',
+	'expensereport'
 ]
 
 $(document).ready(function () {
