@@ -1,4 +1,4 @@
-# Copyright (C) ---Put here your own copyright and developer email---
+# Copyright (C) 2024 SuperAdmin
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,40 +17,22 @@
 # Generic
 #
 
-# Module label 'ModuleMyModuleName'
-ModuleMyModuleName = MyModule
-# Module description 'ModuleMyModuleDesc'
-ModuleMyModuleDesc = MyModule description
+# Module label 'ModuleNextAccountingDayName'
+ModuleNextAccountingDayName = NextAccountingDay
+# Module description 'ModuleNextAccountingDayDesc'
+ModuleNextAccountingDayDesc = Ajoute un bouton pour remplir automatiquement les champs de date avec le prochain jour comptable
 NextAccountingDayButton = Suivant
 NextAccountingDayButtonTooltip = Prochain jour comptable
 
 #
 # Admin page
 #
-MyModuleSetup = MyModule setup
-Settings = Settings
-MyModuleSetupPage = MyModule setup page
-MYMODULE_MYPARAM1 = My param 1
-MYMODULE_MYPARAM1Tooltip = My param 1 tooltip
-MYMODULE_MYPARAM2=My param 2
-MYMODULE_MYPARAM2Tooltip=My param 2 tooltip
-
+NextAccountingDaySetup = Configuration NextAccountingDay
+Settings = Parametres
+NextAccountingDaySetupPage = Ce module n'a pas de parametres a configurer. Il ajoute simplement un bouton "Suivant" a cote des champs de date sur certaines pages.
 
 #
 # About page
 #
-About = About
-MyModuleAbout = About MyModule
-MyModuleAboutPage = MyModule about page
-
-#
-# Sample page
-#
-MyModuleArea = Home MyModule
-MyPageName = My page name
-
-#
-# Sample widget
-#
-MyWidget = My widget
-MyWidgetDescription = My widget description
+About = A propos
+NextAccountingDayAbout = A propos de NextAccountingDay
