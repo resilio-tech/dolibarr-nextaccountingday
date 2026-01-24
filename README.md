@@ -1,86 +1,84 @@
-# NEXTACCOUNTINGDAY FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
+# NextAccountingDay - Dolibarr Module
+
+Utility module for accounting period management. Provides functions to calculate the next accounting day and manage fiscal years.
 
 ## Features
 
-Description of the module...
+- Next accounting day calculation
+- Accounting period management
+- Dolibarr 16 compatibility via backport
 
-<!--
-![Screenshot nextaccountingday](img/screenshot_nextaccountingday.png?raw=true "NextAccountingDay"){imgmd}
--->
-
-Other external modules are available on [Dolistore.com](https://www.dolistore.com).
-
-## Translations
-
-Translations can be completed manually by editing files into directories *langs*.
-
-<!--
-This module contains also a sample configuration for Transifex, under the hidden directory [.tx](.tx), so it is possible to manage translation using this service.
-
-For more informations, see the [translator's documentation](https://wiki.dolibarr.org/index.php/Translator_documentation).
-
-There is a [Transifex project](https://transifex.com/projects/p/dolibarr-module-template) for this module.
--->
-
-<!--
+---
 
 ## Installation
 
-### From the ZIP file and GUI interface
+### Prerequisites
 
-If the module is a ready to deploy zip file, so with a name module_xxx-version.zip (like when downloading it from a market place like [Dolistore](https://www.dolistore.com)),
-go into menu ```Home - Setup - Modules - Deploy external module``` and upload the zip file.
+- Dolibarr >= 11.0
+- PHP >= 7.0
 
-Note: If this screen tell you that there is no "custom" directory, check that your setup is correct:
+### Module Installation
 
-- In your Dolibarr installation directory, edit the ```htdocs/conf/conf.php``` file and check that following lines are not commented:
+1. Copy the `nextaccountingday` folder into `htdocs/custom/`
+2. Enable the module in **Setup > Modules > Interface**
 
-    ```php
-    //$dolibarr_main_url_root_alt ...
-    //$dolibarr_main_document_root_alt ...
-    ```
+---
 
-- Uncomment them if necessary (delete the leading ```//```) and assign a sensible value according to your Dolibarr installation
+## Usage
 
-    For example :
+This module is primarily used by other modules that need to calculate accounting dates. It exposes utility functions via its library.
 
-    - UNIX:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = '/var/www/Dolibarr/htdocs/custom';
-        ```
+---
 
-    - Windows:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = 'C:/My Web Sites/Dolibarr/htdocs/custom';
-        ```
+## Architecture
 
-### From a GIT repository
+### File Structure
 
-Clone the repository in ```$dolibarr_main_document_root_alt/nextaccountingday```
-
-```sh
-cd ....../custom
-git clone git@github.com:gitlogin/nextaccountingday.git nextaccountingday
+```
+nextaccountingday/
+├── core/modules/
+│   └── modNextAccountingDay.class.php  # Module descriptor
+├── admin/
+│   ├── setup.php                       # Configuration
+│   └── about.php                       # About
+├── lib/
+│   └── nextaccountingday.lib.php       # Calculation functions
+├── js/
+│   └── nextaccountingday.js.php        # JavaScript
+├── backport/v16/                       # Dolibarr 16 compatibility
+├── test/phpunit/                       # Functional tests
+└── sql/                                # Minimal
 ```
 
-### <a name="final_steps"></a>Final steps
+### Available Functions
 
-From your browser:
+Functions are exposed in `lib/nextaccountingday.lib.php`:
 
-  - Log into Dolibarr as a super-administrator
-  - Go to "Setup" -> "Modules"
-  - You should now be able to find and enable the module
+```php
+// Usage example
+dol_include_once('/nextaccountingday/lib/nextaccountingday.lib.php');
 
--->
+// Calculate the next accounting day
+$nextDay = getNextAccountingDay($currentDate);
+```
 
-## Licenses
+---
 
-### Main code
+## Development
 
-GPLv3 or (at your option) any later version. See file COPYING for more information.
+### Dolibarr 16 Compatibility
 
-### Documentation
+The `backport/v16/` folder contains adaptations for Dolibarr 16.
 
-All texts and readmes are licensed under GFDL.
+### Tests
+
+```bash
+cd htdocs/custom/nextaccountingday/test/phpunit
+phpunit
+```
+
+---
+
+## License
+
+GPLv3 - See COPYING file
