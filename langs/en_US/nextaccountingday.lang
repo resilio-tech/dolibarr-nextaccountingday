@@ -20,7 +20,7 @@
 # Module label 'ModuleNextAccountingDayName'
 ModuleNextAccountingDayName = NextAccountingDay
 # Module description 'ModuleNextAccountingDayDesc'
-ModuleNextAccountingDayDesc = NextAccountingDay description
+ModuleNextAccountingDayDesc = Adds a button to automatically fill date fields with the next accounting day
 NextAccountingDayButton = Next
 NextAccountingDayButtonTooltip = Next accounting day
 
@@ -29,28 +29,10 @@ NextAccountingDayButtonTooltip = Next accounting day
 #
 NextAccountingDaySetup = NextAccountingDay setup
 Settings = Settings
-NextAccountingDaySetupPage = NextAccountingDay setup page
-NEXTACCOUNTINGDAY_MYPARAM1 = My param 1
-NEXTACCOUNTINGDAY_MYPARAM1Tooltip = My param 1 tooltip
-NEXTACCOUNTINGDAY_MYPARAM2=My param 2
-NEXTACCOUNTINGDAY_MYPARAM2Tooltip=My param 2 tooltip
-
+NextAccountingDaySetupPage = This module has no settings to configure. It simply adds a "Next" button next to date fields on certain pages.
 
 #
 # About page
 #
 About = About
 NextAccountingDayAbout = About NextAccountingDay
-NextAccountingDayAboutPage = NextAccountingDay about page
-
-#
-# Sample page
-#
-NextAccountingDayArea = Home NextAccountingDay
-MyPageName = My page name
-
-#
-# Sample widget
-#
-MyWidget = My widget
-MyWidgetDescription = My widget description

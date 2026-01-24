@@ -1,86 +1,75 @@
-# NEXTACCOUNTINGDAY FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
+# NextAccountingDay - Dolibarr Module
+
+Adds a "Next" button next to date fields on accounting pages to automatically fill in the next business day (weekday).
 
 ## Features
 
-Description of the module...
+- Adds a "Next" button next to date input fields
+- Automatically calculates the next weekday (Monday-Friday)
+- Works on specific accounting pages:
+  - Salaries
+  - Social charges
+  - Bank various payments
+  - Supplier invoices
+  - Expense reports
+- Dolibarr 11+ compatibility (with v16 FormSetup backport)
 
-<!--
-![Screenshot nextaccountingday](img/screenshot_nextaccountingday.png?raw=true "NextAccountingDay"){imgmd}
--->
-
-Other external modules are available on [Dolistore.com](https://www.dolistore.com).
-
-## Translations
-
-Translations can be completed manually by editing files into directories *langs*.
-
-<!--
-This module contains also a sample configuration for Transifex, under the hidden directory [.tx](.tx), so it is possible to manage translation using this service.
-
-For more informations, see the [translator's documentation](https://wiki.dolibarr.org/index.php/Translator_documentation).
-
-There is a [Transifex project](https://transifex.com/projects/p/dolibarr-module-template) for this module.
--->
-
-<!--
+---
 
 ## Installation
 
-### From the ZIP file and GUI interface
+### Prerequisites
 
-If the module is a ready to deploy zip file, so with a name module_xxx-version.zip (like when downloading it from a market place like [Dolistore](https://www.dolistore.com)),
-go into menu ```Home - Setup - Modules - Deploy external module``` and upload the zip file.
+- Dolibarr >= 11.0
+- PHP >= 7.0
 
-Note: If this screen tell you that there is no "custom" directory, check that your setup is correct:
+### Module Installation
 
-- In your Dolibarr installation directory, edit the ```htdocs/conf/conf.php``` file and check that following lines are not commented:
+1. Copy the `nextaccountingday` folder into `htdocs/custom/`
+2. Enable the module in **Setup > Modules > Interface**
 
-    ```php
-    //$dolibarr_main_url_root_alt ...
-    //$dolibarr_main_document_root_alt ...
-    ```
+---
 
-- Uncomment them if necessary (delete the leading ```//```) and assign a sensible value according to your Dolibarr installation
+## Usage
 
-    For example :
+Once enabled, a "Next" button appears next to date fields on supported pages. Clicking it fills the date with the next business day.
 
-    - UNIX:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = '/var/www/Dolibarr/htdocs/custom';
-        ```
+---
 
-    - Windows:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = 'C:/My Web Sites/Dolibarr/htdocs/custom';
-        ```
+## Architecture
 
-### From a GIT repository
+### File Structure
 
-Clone the repository in ```$dolibarr_main_document_root_alt/nextaccountingday```
-
-```sh
-cd ....../custom
-git clone git@github.com:gitlogin/nextaccountingday.git nextaccountingday
+```
+nextaccountingday/
+├── core/modules/
+│   └── modNextAccountingDay.class.php  # Module descriptor
+├── admin/
+│   ├── setup.php                       # Configuration page
+│   └── about.php                       # About page
+├── lib/
+│   └── nextaccountingday.lib.php       # Admin helper functions
+├── js/
+│   └── nextaccountingday.js.php        # JavaScript (main functionality)
+├── langs/                              # Translations (en_US, fr_FR, fr_CH)
+├── backport/v16/                       # Dolibarr < 16 compatibility
+└── test/phpunit/                       # Functional tests
 ```
 
-### <a name="final_steps"></a>Final steps
+---
 
-From your browser:
+## Development
 
-  - Log into Dolibarr as a super-administrator
-  - Go to "Setup" -> "Modules"
-  - You should now be able to find and enable the module
+### How it works
 
--->
+The module loads a JavaScript file on all pages. The script checks if the current page URL matches one of the supported paths (salaries, social charges, etc.). If it does, it adds a "Next" button after each date input field.
 
-## Licenses
+### Dolibarr < 16 Compatibility
 
-### Main code
+The `backport/v16/` folder contains FormSetup class for Dolibarr versions prior to 16.0.
 
-GPLv3 or (at your option) any later version. See file COPYING for more information.
+---
 
-### Documentation
+## License
 
-All texts and readmes are licensed under GFDL.
+GPLv3 - See COPYING file
