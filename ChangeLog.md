@@ -1,6 +1,18 @@
 # CHANGELOG NEXTACCOUNTINGDAY FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
-## 1.2 (Unreleased)
+## Unreleased
+
+### Build
+- Stop the release build from pushing the version bump to main, which the branch protection rejects. The descriptor is now bumped in the pull request that prepares a release, and the build refuses a tag that does not match it
+- Build on a `v*` tag push as well as on a published release
+- Pass the workflow inputs and the tag name through the environment and validate the version, so a crafted value cannot run as shell code
+- Rename the version bump workflow to `version-bump.yml` and stop it writing a placeholder entry in this changelog
+- Realign this changelog with the published tags: the 1.2 changes were released as 1.0.0
+
+### Changed
+- Drop the unused `temp` data directory from the module descriptor
+
+## 1.0.0
 
 ### Changed
 - Cleaned up module code by removing MYOBJECT/MYMODULE template references
