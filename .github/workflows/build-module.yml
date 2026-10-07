@@ -1,8 +1,11 @@
 name: Build Dolibarr Module
 
 on:
+  push:
+    tags:
+      - 'v*'
   release:
-    types: [created]
+    types: [published]
   workflow_dispatch:
     inputs:
       version:
@@ -15,43 +18,53 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
 
-      - name: Get version from release
+      - name: Get module version
         id: version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          REF_NAME: ${{ github.ref_name }}
+          REF: ${{ github.ref }}
         run: |
-          CURRENT_VERSION=$(grep -oP "\\\$this->version\s*=\s*'\K[^']+" core/modules/modNextAccountingDay.class.php)
-          echo "current=$CURRENT_VERSION" >> $GITHUB_OUTPUT
-          echo "Current version in file: $CURRENT_VERSION"
+          DESCRIPTOR_VERSION=$(grep -oP "\\\$this->version\s*=\s*'\K[^']+" core/modules/modNextAccountingDay.class.php)
 
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          elif [ -n "${{ github.event.release.tag_name }}" ]; then
-            VERSION="${{ github.event.release.tag_name }}"
-            VERSION="${VERSION#v}"
+          if [ -n "$INPUT_VERSION" ]; then
+            VERSION="$INPUT_VERSION"
+          elif [ "${REF#refs/tags/v}" != "$REF" ]; then
+            VERSION="${REF_NAME#v}"
           else
-            VERSION="$CURRENT_VERSION"
+            VERSION="$DESCRIPTOR_VERSION"
           fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Target version: $VERSION"
 
-      - name: Update version in module file
+          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+(\.[0-9]+)*([.-][A-Za-z0-9]+)*$'; then
+            echo "Refusing to build: unexpected version string '$VERSION'" >&2
+            exit 1
+          fi
+
+          if [ -z "$INPUT_VERSION" ] && [ "$VERSION" != "$DESCRIPTOR_VERSION" ]; then
+            echo "Refusing to build: tag $VERSION does not match the descriptor ($DESCRIPTOR_VERSION)." >&2
+            echo "Bump \$this->version in core/modules/modNextAccountingDay.class.php, then tag." >&2
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Module version: $VERSION"
+
+      - name: Stamp the version into the module descriptor
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          echo "Updating module version to: $VERSION"
-          sed -i "s/\$this->version = '[^']*';/\$this->version = '$VERSION';/" core/modules/modNextAccountingDay.class.php
-          grep "this->version" core/modules/modNextAccountingDay.class.php
+          sed -i "s/\$this->version = '[^']*'/\$this->version = '$VERSION'/" core/modules/modNextAccountingDay.class.php
+          grep -n "this->version" core/modules/modNextAccountingDay.class.php
 
       - name: Create module package
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           MODULE_NAME="nextaccountingday"
           PACKAGE_NAME="module_${MODULE_NAME}-${VERSION}"
 
@@ -86,30 +99,19 @@ jobs:
           path: module_nextaccountingday-${{ steps.version.outputs.version }}.zip
           retention-days: 30
 
-      - name: Upload release asset
-        if: github.event_name == 'release'
-        uses: softprops/action-gh-release@v1
+      - name: Create Release
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
         with:
           files: module_nextaccountingday-${{ steps.version.outputs.version }}.zip
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit version update
+      - name: Upload to Release
         if: github.event_name == 'release'
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          CURRENT_VERSION="${{ steps.version.outputs.current }}"
-
-          if [ "$VERSION" = "$CURRENT_VERSION" ]; then
-            echo "Version already up to date ($VERSION), nothing to commit"
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add core/modules/modNextAccountingDay.class.php
-          git commit -m "chore: bump version to $VERSION"
-          git push origin HEAD:main
+        uses: softprops/action-gh-release@v2
+        with:
+          files: module_nextaccountingday-${{ steps.version.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
